@@ -28,6 +28,7 @@ RESOURCE_PATH = MAIN_PATH / "resource"
 PHANTOM_PATH = RESOURCE_PATH / "phantom"
 MATERIAL_PATH = RESOURCE_PATH / "material"
 MONSTER_PATH = RESOURCE_PATH / "monster"
+SLASH_BUFF_PATH = RESOURCE_PATH / "slash_buff"
 AVATAR_PATH = RESOURCE_PATH / "waves_avatar"
 WEAPON_PATH = RESOURCE_PATH / "waves_weapon"
 ROLE_PILE_PATH = RESOURCE_PATH / "role_pile"
@@ -73,6 +74,9 @@ MAP_CHALLENGE_PATH = RESOURCE_PATH / "map" / "detail_json" / "challenge"
 MAP_FORTE_PATH = RESOURCE_PATH / "map" / "detail_json" / "forte"
 MAP_BUILD_PATH = BUILD_ROOT / "map" / "waves_build"
 MAP_BUILD_TEMP = MAIN_PATH / "build" / "map" / "waves_build"
+# 资源 hash 清单
+HASH_PATH = RESOURCE_PATH / "hash"
+HASH_CHECKED_PATH = RESOURCE_PATH / "hash_checked.json"
 MAP_ALIAS_PATH = MAP_PATH / "alias"
 LOCALIZATION_PATH = MAP_PATH / "i18n"
 
@@ -125,6 +129,7 @@ def init_dir():
         PHANTOM_PATH,
         MATERIAL_PATH,
         MONSTER_PATH,
+        SLASH_BUFF_PATH,
         AVATAR_PATH,
         WEAPON_PATH,
         ROLE_PILE_PATH,
@@ -157,6 +162,7 @@ def init_dir():
         BUILD_TEMP,
         MAP_BUILD_PATH,
         MAP_BUILD_TEMP,
+        HASH_PATH,
         MAP_PATH,
         MAP_CHAR_PATH,
         MAP_DETAIL_PATH,

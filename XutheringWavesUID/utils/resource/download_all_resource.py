@@ -9,6 +9,7 @@ from gsuid_core.utils.download_resource.download_core import download_all_file
 import httpx
 
 from .download_cnb import download_all_file_cnb
+from ..download_utils import check_resource_hash
 from .RESOURCE_PATH import (
     MAP_PATH,
     BUILD_TEMP,
@@ -22,6 +23,7 @@ from .RESOURCE_PATH import (
     MAP_FORTE_PATH,
     MATERIAL_PATH,
     MONSTER_PATH,
+    SLASH_BUFF_PATH,
     SHARE_BG_PATH,
     TITLE_BG_PATH,
     CARD_POLYGON_PATH,
@@ -43,6 +45,8 @@ from .RESOURCE_PATH import (
     ROLE_DETAIL_SKILL_PATH,
     ROLE_DETAIL_CHAINS_PATH,
     WIKI_CACHE_PATH,
+    HASH_PATH,
+    HASH_CHECKED_PATH,
 )
 
 async def check_speed(plugin_name, exclude_cnb: bool = False):
@@ -195,6 +199,7 @@ async def download_all_resource(force: bool = False):
             shutil.rmtree(MAP_BUILD_TEMP, ignore_errors=True)
             shutil.rmtree(MAP_CHAR_PATH, ignore_errors=True)
             shutil.rmtree(WIKI_CACHE_PATH, ignore_errors=True)
+            HASH_CHECKED_PATH.unlink(missing_ok=True)
             BUILD_TEMP.mkdir(parents=True, exist_ok=True)
             MAP_BUILD_TEMP.mkdir(parents=True, exist_ok=True)
             MAP_CHAR_PATH.mkdir(parents=True, exist_ok=True)
@@ -216,6 +221,7 @@ async def download_all_resource(force: bool = False):
             "resource/phantom": PHANTOM_PATH,
             "resource/material": MATERIAL_PATH,
             "resource/monster": MONSTER_PATH,
+            "resource/slash_buff": SLASH_BUFF_PATH,
             "resource/calendar": CALENDAR_PATH,
             "resource/guide/XMu": XMU_GUIDE_PATH,
             "resource/guide/Moealkyne": MOEALKYNE_GUIDE_PATH,
@@ -236,6 +242,7 @@ async def download_all_resource(force: bool = False):
             "resource/map/detail_json/forte": MAP_FORTE_PATH,
             "resource/map/alias": MAP_ALIAS_PATH,
             "resource/map/i18n": LOCALIZATION_PATH,
+            "resource/hash": HASH_PATH,
         }
 
         if "cnb.cool" in url:
@@ -245,6 +252,9 @@ async def download_all_resource(force: bool = False):
             url, tag = await check_speed(plugin_name, exclude_cnb=True)
 
         await download_all_file(plugin_name, epath_map, url, tag)
+        if await asyncio.to_thread(check_resource_hash, epath_map):
+            await download_all_file(plugin_name, epath_map, url, tag)
+            await asyncio.to_thread(check_resource_hash, epath_map, False)
 
 
 async def reload_all_modules():
